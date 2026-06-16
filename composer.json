@@ -1,6 +1,6 @@
 {
   "name": "la-souris/filament-env-indicator",
-  "description": "Filament v5 infolist component for Spatie ModelStates with transition-aware step ordering and status-aware labels.",
+  "description": "Filament v5 plugin to change the header color according to environment",
   "type": "library",
   "license": "MIT",
   "require": {
