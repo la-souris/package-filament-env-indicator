@@ -1,5 +1,5 @@
 {
-  "name": "lasouris/filament-env-indicator",
+  "name": "la-souris/filament-env-indicator",
   "description": "Filament v5 infolist component for Spatie ModelStates with transition-aware step ordering and status-aware labels.",
   "type": "library",
   "license": "MIT",
