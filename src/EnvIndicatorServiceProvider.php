@@ -20,8 +20,12 @@ class EnvIndicatorServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        if (app()->isProduction()) {
+            return;
+        }
+
         FilamentAsset::register([
             Css::make('filament-env-indicator', __DIR__ . '/../resources/dist/env-indicator.css'),
-        ], 'lasouris/filament-env-indicator');
+        ], 'la-souris/filament-env-indicator');
     }
 }

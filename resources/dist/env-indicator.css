@@ -1,0 +1,36 @@
+.fi-topbar {
+    background-color: var(--bg-env-header);
+}
+
+.fi-topbar .fi-topbar-item:not(.fi-active):not(:hover) * {
+    color: var(--fg-env-header);
+}
+
+.fi-topbar .fi-topbar-item.fi-active a {
+    background-color: var(--fg-env-header);
+}
+
+.fi-topbar .fi-topbar-item.fi-active * {
+    color: var(--bg-env-header);
+}
+
+.fi-env-indicator-badge {
+    display:inline-flex;
+    align-items:center;
+    gap:0.25rem;
+    padding:0.125rem 0.5rem;
+    border-radius:9999px;
+    font-size:11px;
+    font-weight:600;
+    line-height:1.25rem;
+    color: var(--bg-env-header);
+    background-color: var(--fg-env-header);
+}
+
+.fi-global-search-field > .fi-input-wrp {
+    background-color: var(--fg-env-header);
+}
+
+.fi-global-search-field input {
+    color: var(--search-text-env-header);
+}

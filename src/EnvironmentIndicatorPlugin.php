@@ -7,26 +7,41 @@ namespace LaSouris\FillamentEnvIndicator;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\HtmlString;
-
 
 class EnvironmentIndicatorPlugin implements Plugin
 {
     /**
-     * @var array<string, array{palette: array<int|string, string>, topbarShade: string, badgeShade: string}>
+     * @var array<string, array{
+     *     palette: array<int|string, string>,
+     *     topbarShade: string,
+     *     topbarAccent: string,
+     *     textColor: string
+     * }>
      */
     private array $environments = [];
 
     public function __construct()
     {
-        $green = ['palette' => Color::Green, 'topbarShade' => '800', 'badgeShade' => '500'];
+        $green = ['palette' => Color::Green, 'topbarShade' => '800', 'topbarAccent' => '50', 'textColor' => 'black'];
 
         $this->environments = [
             'local'       => $green,
             'development' => $green,
-            'demo'        => ['palette' => Color::Orange, 'topbarShade' => '500', 'badgeShade' => '700'],
-            'acceptance'  => ['palette' => Color::Red, 'topbarShade' => '500', 'badgeShade' => '700'],
+            'demo'        => [
+                'palette' => Color::Amber,
+                'topbarShade' => '500',
+                'topbarAccent' => '50',
+                'textColor' => 'black'
+            ],
+            'acceptance'  => [
+                'palette' => Color::Red,
+                'topbarShade' => '500',
+                'topbarAccent' => '50',
+                'textColor' => 'black'
+            ],
         ];
     }
 
@@ -43,12 +58,18 @@ class EnvironmentIndicatorPlugin implements Plugin
     /**
      * @param  array<int|string, string>  $palette
      */
-    public function environment(string $name, array $palette, string $topbarShade = '500', string $badgeShade = '700'): static
-    {
+    public function environment(
+        string $name,
+        array $palette,
+        string $topbarShade = '500',
+        string $topbarAccent = '50',
+        string $textColor = 'black'
+    ): static {
         $this->environments[$name] = [
             'palette'     => $palette,
             'topbarShade' => $topbarShade,
-            'badgeShade'  => $badgeShade,
+            'topbarAccent'  => $topbarAccent,
+            'textColor' => $textColor,
         ];
 
         return $this;
@@ -56,10 +77,17 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
-        $panel->renderHook(
-            PanelsRenderHook::STYLES_AFTER,
-            fn (): ?HtmlString => $this->topbarStyle(),
-        );
+        $theme = $this->theme();
+
+        if ($theme === null) {
+            return;
+        }
+
+        FilamentAsset::registerCssVariables([
+            'bg-env-header'          => $theme['palette'][$theme['topbarShade']],
+            'fg-env-header'          => $theme['palette'][$theme['topbarAccent']],
+            'search-text-env-header' => $theme['textColor'],
+        ], 'la-souris/filament-env-indicator');
 
         $panel->renderHook(
             PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
@@ -73,43 +101,20 @@ class EnvironmentIndicatorPlugin implements Plugin
     }
 
     /**
-     * @return array{palette: array<int|string, string>, topbarShade: string, badgeShade: string}|null
+     * @return null|array{
+     *     palette: array<int|string, string>,
+     *     topbarShade: string,
+     *     topbarAccent: string,
+     *     textColor: string
+     * }>
      */
     private function theme(): ?array
     {
-        if (auth()->guest() || app()->environment('production')) {
+        if (app()->isProduction()) {
             return null;
         }
 
         return $this->environments[app()->environment()] ?? null;
-    }
-
-    private function topbarStyle(): ?HtmlString
-    {
-        $theme = $this->theme();
-
-        if ($theme === null) {
-            return null;
-        }
-
-        $background = $theme['palette'][$theme['topbarShade']];
-        $foreground = $theme['palette']['50'];
-
-        return new HtmlString(<<<HTML
-            <style>
-                .fi-topbar {
-                    background-color: {$background} !important;
-                }
-
-                .fi-topbar .fi-icon-btn,
-                .fi-topbar .fi-topbar-item,
-                .fi-topbar .fi-dropdown-trigger,
-                .fi-topbar .fi-topbar-item-label,
-                .fi-topbar a {
-                    color: {$foreground} !important;
-                }
-            </style>
-            HTML);
     }
 
     private function badge(): ?HtmlString
@@ -120,22 +125,12 @@ class EnvironmentIndicatorPlugin implements Plugin
             return null;
         }
 
-        $background = $theme['palette'][$theme['badgeShade']];
-        $foreground = $theme['palette']['50'];
-
         $environment = e(ucfirst(app()->environment()));
-
-        $branch     = trim((string) @exec('git branch --show-current'));
-        $branchHtml = $branch !== ''
-            ? ' <code style="background:transparent;color:inherit;font-size:11px;">(' . e($branch) . ')</code>'
-            : '';
+        $branch      = e(trim((string) @exec('git branch --show-current')));
 
         return new HtmlString(<<<HTML
-            <span
-                class="fi-env-indicator-badge"
-                style="display:inline-flex;align-items:center;gap:0.25rem;padding:0.125rem 0.5rem;border-radius:9999px;font-size:11px;font-weight:600;line-height:1.25rem;background-color:{$background};color:{$foreground};"
-            >
-                {$environment}{$branchHtml}
+            <span class="fi-env-indicator-badge" title="{$branch}">
+                {$environment}
             </span>
             HTML);
     }
