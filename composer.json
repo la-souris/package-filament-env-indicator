@@ -1,0 +1,32 @@
+{
+  "name": "lasouris/filament-env-indicator",
+  "description": "Filament v5 infolist component for Spatie ModelStates with transition-aware step ordering and status-aware labels.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.4",
+    "filament/support": "^5.6",
+    "filament/filament": "^5.6"
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.0",
+    "phpunit/phpunit": "^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LaSouris\\FillamentEnvIndicator\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LaSouris\\FillamentEnvIndicator\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "LaSouris\\FillamentEnvIndicator\\EnvIndicatorServiceProvider"
+      ]
+    }
+  }
+}
