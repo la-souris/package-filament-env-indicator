@@ -1,27 +1,30 @@
 # Filament Environment Indicator
 
-A Filament v3 plugin that colors the admin panel's topbar and shows a badge in the global search bar so you can tell at a glance which environment you're looking at.
+`la-souris/filament-env-indicator` is a Filament v5 plugin that makes non-production panels visually obvious by:
 
-The badge also shows the current git branch when available.
+- recoloring the Filament topbar,
+- recoloring the global search field to match,
+- and adding a small environment badge before global search.
 
-## Behavior
+This helps avoid mistakes when switching between `local`, staging-like, and demo/admin environments.
 
-- Hidden on `production` and for guests.
-- Renders for any environment registered on the plugin.
+## Requirements
+
+- PHP `^8.4`
+- Filament `^5.6`
 
 ## Installation
 
-Install the package via Composer:
-
 ```bash
-composer require la-souris/fillament-env-indicator
+composer require la-souris/filament-env-indicator
 ```
 
-## Usage
+## Basic usage
 
-Register the plugin on your panel:
+Register the plugin on your panel provider:
 
 ```php
+use Filament\Panel;
 use LaSouris\FillamentEnvIndicator\EnvironmentIndicatorPlugin;
 
 public function panel(Panel $panel): Panel
@@ -31,21 +34,41 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-## Adding or overriding environments
+## Default behavior
 
-Use the `environment()` method to register a new environment or replace the defaults. Pass any `Filament\Support\Colors\Color` palette and pick which shade to use for the topbar and badge.
+- Nothing is shown in `production` (styles and badge are disabled).
+- Defaults are provided for:
+  - `local` and `development` (green),
+  - `demo` (amber),
+  - `acceptance` (red).
+- Environments not registered on the plugin are ignored.
+- The badge text is the current Laravel environment name (`app()->environment()`).
+- The current git branch is included as the badge tooltip (`title`) when available.
+
+## Customizing environments
+
+Use `environment()` to add new environment themes or override defaults:
 
 ```php
-use LaSouris\FillamentEnvIndicator\EnvironmentIndicatorPlugin;
 use Filament\Support\Colors\Color;
+use LaSouris\FillamentEnvIndicator\EnvironmentIndicatorPlugin;
 
 EnvironmentIndicatorPlugin::make()
-    ->environment('staging', Color::Yellow, topbarShade: '600', badgeShade: '700')
-    ->environment('local', Color::Blue);
+    ->environment('staging', Color::Yellow, topbarShade: '600', topbarAccent: '100', textColor: 'black')
+    ->environment('local', Color::Blue, topbarShade: '700', topbarAccent: '100', textColor: 'white');
 ```
 
-## How it works
+Method signature:
 
-- `STYLES_AFTER` render hook injects a `<style>` block that recolors `.fi-topbar`.
-- `GLOBAL_SEARCH_BEFORE` render hook renders a pill-shaped badge with the environment name and current git branch (via `git branch --show-current`).
-- The shade indices (e.g. `'500'`, `'700'`) match keys on Filament's `Color` palettes.
+```php
+environment(
+    string $name,
+    array $palette,
+    string $topbarShade = '500',
+    string $topbarAccent = '50',
+    string $textColor = 'black',
+)
+```
+
+- `$palette` should be a Filament color palette (for example `Color::Blue`).
+- Shade values like `'50'`, `'500'`, `'800'` must exist on the palette.
