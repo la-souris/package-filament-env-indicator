@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaSouris\FillamentEnvIndicator;
+namespace LaSouris\FilamentEnvIndicator;
 
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -13,9 +13,7 @@ class EnvIndicatorServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        $package
-            ->name('filament-env-indicator')
-            ->hasViews('env-indicator');
+        $package->name('filament-env-indicator');
     }
 
     public function packageBooted(): void

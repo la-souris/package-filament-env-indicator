@@ -10,7 +10,7 @@ This helps avoid mistakes when switching between `local`, staging-like, and demo
 
 ## Requirements
 
-- PHP `^8.4`
+- PHP `^8.5`
 - Filament `^5.6`
 
 ## Installation
@@ -25,7 +25,7 @@ Register the plugin on your panel provider:
 
 ```php
 use Filament\Panel;
-use LaSouris\FillamentEnvIndicator\EnvironmentIndicatorPlugin;
+use LaSouris\FilamentEnvIndicator\EnvironmentIndicatorPlugin;
 
 public function panel(Panel $panel): Panel
 {
@@ -51,7 +51,7 @@ Use `environment()` to add new environment themes or override defaults:
 
 ```php
 use Filament\Support\Colors\Color;
-use LaSouris\FillamentEnvIndicator\EnvironmentIndicatorPlugin;
+use LaSouris\FilamentEnvIndicator\EnvironmentIndicatorPlugin;
 
 EnvironmentIndicatorPlugin::make()
     ->environment('staging', Color::Yellow, topbarShade: '600', topbarAccent: '100', textColor: 'black')

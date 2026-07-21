@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaSouris\FillamentEnvIndicator;
+namespace LaSouris\FilamentEnvIndicator;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
@@ -25,22 +25,27 @@ class EnvironmentIndicatorPlugin implements Plugin
 
     public function __construct()
     {
-        $green = ['palette' => Color::Green, 'topbarShade' => '800', 'topbarAccent' => '50', 'textColor' => 'black'];
+        $green = [
+            'palette'      => Color::Green,
+            'topbarShade'  => '800',
+            'topbarAccent' => '50',
+            'textColor'    => 'black',
+        ];
 
         $this->environments = [
             'local'       => $green,
             'development' => $green,
             'demo'        => [
-                'palette' => Color::Amber,
-                'topbarShade' => '500',
+                'palette'      => Color::Amber,
+                'topbarShade'  => '500',
                 'topbarAccent' => '50',
-                'textColor' => 'black'
+                'textColor'    => 'black'
             ],
             'acceptance'  => [
-                'palette' => Color::Red,
-                'topbarShade' => '500',
+                'palette'      => Color::Red,
+                'topbarShade'  => '500',
                 'topbarAccent' => '50',
-                'textColor' => 'black'
+                'textColor'    => 'black'
             ],
         ];
     }
@@ -66,10 +71,10 @@ class EnvironmentIndicatorPlugin implements Plugin
         string $textColor = 'black'
     ): static {
         $this->environments[$name] = [
-            'palette'     => $palette,
-            'topbarShade' => $topbarShade,
-            'topbarAccent'  => $topbarAccent,
-            'textColor' => $textColor,
+            'palette'      => $palette,
+            'topbarShade'  => $topbarShade,
+            'topbarAccent' => $topbarAccent,
+            'textColor'    => $textColor,
         ];
 
         return $this;
