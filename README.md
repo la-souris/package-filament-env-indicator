@@ -8,6 +8,12 @@
 
 This helps avoid mistakes when switching between `local`, staging-like, and demo/admin environments.
 
+
+## Example
+![local.png](docs/local.png)
+![acceptance.png](docs/acceptance.png)
+![production.png](docs/production.png)
+
 ## Requirements
 
 - PHP `^8.5`
@@ -72,3 +78,13 @@ environment(
 
 - `$palette` should be a Filament color palette (for example `Color::Blue`).
 - Shade values like `'50'`, `'500'`, `'800'` must exist on the palette.
+
+## Testing
+
+```bash
+composer test
+```
+
+## Credits
+
+This package is inspired by [pxlrbt/filament-environment-indicator](https://filamentphp.com/plugins/pxlrbt-environment-indicator).
