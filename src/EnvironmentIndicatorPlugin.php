@@ -39,13 +39,13 @@ class EnvironmentIndicatorPlugin implements Plugin
                 'palette'      => Color::Amber,
                 'topbarShade'  => '500',
                 'topbarAccent' => '50',
-                'textColor'    => 'black'
+                'textColor'    => 'black',
             ],
-            'acceptance'  => [
+            'acceptance' => [
                 'palette'      => Color::Red,
                 'topbarShade'  => '500',
                 'topbarAccent' => '50',
-                'textColor'    => 'black'
+                'textColor'    => 'black',
             ],
         ];
     }

@@ -9,6 +9,7 @@
     "filament/filament": "^5.6"
   },
   "require-dev": {
+    "laravel/pint": "^1.18",
     "orchestra/testbench": "^10.0",
     "phpunit/phpunit": "^11.0"
   },
@@ -17,6 +18,19 @@
       "LaSouris\\FilamentEnvIndicator\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "LaSouris\\FilamentEnvIndicator\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
   "extra": {
     "laravel": {
       "providers": [
