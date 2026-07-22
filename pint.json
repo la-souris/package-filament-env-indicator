@@ -13,6 +13,9 @@
         "concat_space": {
             "spacing": "one"
         },
+        "php_unit_method_casing": {
+            "case": "camel_case"
+        },
         "no_multiline_whitespace_around_double_arrow": false
     }
 }
