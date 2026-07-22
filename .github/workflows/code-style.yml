@@ -26,4 +26,4 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Check code style with Pint
-        run: vendor/bin/pint --test
+        run: composer lint
